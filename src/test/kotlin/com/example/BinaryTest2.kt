@@ -64,7 +64,7 @@ class BinaryTest2 {
     fun cbor() {
         printJson()
 
-        val mapper = CBORMapper().registerModule(JavaTimeModule()).registerKotlinModule() as CBORMapper
+        val mapper = CBORMapper().registerModule(JavaTimeModule()).registerKotlinModule()
 
         val bytes = mapper.writeValueAsBytes(obj)
         println(bytes.size)
@@ -79,7 +79,7 @@ class BinaryTest2 {
     fun ion() {
         printJson()
 
-        val mapper = IonObjectMapper().registerModule(JavaTimeModule()).registerKotlinModule() as IonObjectMapper
+        val mapper = IonObjectMapper().registerModule(JavaTimeModule()).registerKotlinModule()
 
         val bytes = mapper.writeValueAsBytes(obj)
         println(bytes.size)
@@ -94,7 +94,7 @@ class BinaryTest2 {
     fun smile() {
         printJson()
 
-        val mapper = SmileMapper().registerModule(JavaTimeModule()).registerKotlinModule() as SmileMapper
+        val mapper = SmileMapper().registerModule(JavaTimeModule()).registerKotlinModule()
 
         val bytes = mapper.writeValueAsBytes(obj)
         println(bytes.size)
