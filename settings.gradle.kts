@@ -1,13 +1,15 @@
 pluginManagement {
     plugins {
-        id("org.springframework.boot") version System.getProperty("spring_version")
-        id("io.spring.dependency-management") version System.getProperty("spring_dm_version")
-        kotlin("jvm") version System.getProperty("kotlin_version")
-        kotlin("plugin.spring") version System.getProperty("kotlin_version")
+        val kotlinVersion = settings.extra["kotlin1-lang.version"] as String
+        kotlin("jvm") version kotlinVersion
+        kotlin("plugin.spring") version kotlinVersion
+        id("org.springframework.boot") version settings.extra["spring-boot.version"] as String
+        id("io.spring.dependency-management") version settings.extra["spring-dm.version"] as String
     }
 }
 
 dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         mavenCentral()
     }

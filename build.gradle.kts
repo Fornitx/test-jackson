@@ -12,7 +12,7 @@ java {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:" + System.getProperty("spring_version")))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:" + providers.gradleProperty("spring-boot.version").get()))
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:" + System.getProperty("kotlin_coroutines_version"))
@@ -30,10 +30,12 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-smile")
 
     implementation("ch.qos.logback:logback-classic")
-    implementation("io.github.oshai:kotlin-logging-jvm:" + System.getProperty("kotlin_logging_version"))
+    implementation("io.github.oshai:kotlin-logging-jvm:" + providers.gradleProperty("kotlin1-logging.version").get())
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 //    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + System.getProperty("kotlin_coroutines_version"))
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
