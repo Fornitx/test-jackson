@@ -35,6 +35,10 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 //    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:" + System.getProperty("kotlin_coroutines_version"))
 
+    testImplementation("org.apache.commons:commons-lang3")
+    testImplementation("com.google.guava:guava:33.4.8-jre")
+    testImplementation("org.apache.commons:commons-math4-legacy:4.0-beta1")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

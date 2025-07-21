@@ -1,7 +1,8 @@
-package com.example
+package com.demo
 
-import com.example.model.DemoResponse
-import com.example.utils.toBase64
+import com.demo.model.DemoResponse
+import com.demo.utils.measureBlock
+import com.demo.utils.toBase64
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.dataformat.avro.AvroMapper
 import com.fasterxml.jackson.dataformat.avro.schema.AvroSchemaGenerator
@@ -21,7 +22,8 @@ import java.time.Instant
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class BinaryTest2 {
-    private val obj = DemoResponse(Long.MIN_VALUE, "текст", Instant.now(), true to false, mapOf("Ж" to mapOf("Ш" to "Ф")))
+    private val obj =
+        DemoResponse(Long.MIN_VALUE, "текст", Instant.now(), true to false, mapOf("Ж" to mapOf("Ш" to "Ф")))
     private val jsonMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 
@@ -33,12 +35,18 @@ class BinaryTest2 {
         val mapper = ProtobufMapper().registerModule(JavaTimeModule()).registerKotlinModule() as ProtobufMapper
         val schema = mapper.generateSchemaFor(DemoResponse::class.java)
 
-        val bytes = mapper.writer(schema).writeValueAsBytes(obj)
+        val objectWriter = mapper.writer(schema)
+        val bytes = objectWriter.writeValueAsBytes(obj)
         println(bytes.size)
         println(bytes.toBase64())
 
-        val newObj = mapper.readerFor(DemoResponse::class.java).with(schema).readValue<DemoResponse>(bytes)
+        measureBlock { objectWriter.writeValueAsBytes(obj) }
+
+        val objectReader = mapper.readerFor(DemoResponse::class.java).with(schema)
+        val newObj = objectReader.readValue<DemoResponse>(bytes)
         println(newObj)
+
+        measureBlock { objectReader.readValue<DemoResponse>(bytes) }
     }
 
     @Order(2)
@@ -51,12 +59,18 @@ class BinaryTest2 {
         mapper.acceptJsonFormatVisitor(DemoResponse::class.java, gen)
         val schema = gen.generatedSchema
 
-        val bytes = mapper.writer(schema).writeValueAsBytes(obj)
+        val objectWriter = mapper.writer(schema)
+        val bytes = objectWriter.writeValueAsBytes(obj)
         println(bytes.size)
         println(bytes.toBase64())
 
-        val newObj = mapper.readerFor(DemoResponse::class.java).with(schema).readValue<DemoResponse>(bytes)
+        measureBlock { objectWriter.writeValueAsBytes(obj) }
+
+        val objectReader = mapper.readerFor(DemoResponse::class.java).with(schema)
+        val newObj = objectReader.readValue<DemoResponse>(bytes)
         println(newObj)
+
+        measureBlock { objectReader.readValue<DemoResponse>(bytes) }
     }
 
     @Order(3)
@@ -70,8 +84,12 @@ class BinaryTest2 {
         println(bytes.size)
         println(bytes.toBase64())
 
+        measureBlock { mapper.writeValueAsBytes(obj) }
+
         val newObj = mapper.readValue<DemoResponse>(bytes)
         println(newObj)
+
+        measureBlock { mapper.readValue<DemoResponse>(bytes) }
     }
 
     @Order(4)
@@ -85,8 +103,12 @@ class BinaryTest2 {
         println(bytes.size)
         println(bytes.toBase64())
 
+        measureBlock { mapper.writeValueAsBytes(obj) }
+
         val newObj = mapper.readValue<DemoResponse>(bytes)
         println(newObj)
+
+        measureBlock { mapper.readValue<DemoResponse>(bytes) }
     }
 
     @Order(5)
@@ -100,8 +122,12 @@ class BinaryTest2 {
         println(bytes.size)
         println(bytes.toBase64())
 
+        measureBlock { mapper.writeValueAsBytes(obj) }
+
         val newObj = mapper.readValue<DemoResponse>(bytes)
         println(newObj)
+
+        measureBlock { mapper.readValue<DemoResponse>(bytes) }
     }
 
     private fun printJson() {

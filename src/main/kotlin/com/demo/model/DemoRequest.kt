@@ -1,4 +1,4 @@
-package com.example.model
+package com.demo.model
 
 import java.time.Instant
 

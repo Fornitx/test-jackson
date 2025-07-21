@@ -1,4 +1,4 @@
-package com.example
+package com.demo
 
 import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper
 import com.fasterxml.jackson.dataformat.ion.IonObjectMapper
